@@ -1,0 +1,77 @@
+{% extends 'website/base.html' %}
+
+{% block scripts %}
+    {% load static %}
+    <script src="{% static 'website/home.js' %}"></script>
+{% endblock scripts %}
+
+{% block title %}
+    Accueil
+{% endblock title %}
+
+{% block content %}
+    <div class="d-flex justify-content-between">
+        <div>
+            <p id  = 'welcome'>Bienvenue 
+                {{request.user.first_name}}, {{request.user.last_name}}
+            </p>
+        </div>
+
+        <div> <a class='text-danger' href="/logout">Déconnexion</a></div>
+    </div>
+    
+
+    <div class = 'mt-4'>
+        <div class="d-flex justify-content-between">
+            <div>
+                <h2 >Vos informations</h2>
+            </div>
+            <div>
+            <button type='button' class = 'btn btn-primary' data-toggle="modal" data-target="#modalUserInfo">
+                Modifier vos informations
+            </button>
+            </div>
+        </div>
+        <ul>
+            <li class = "mt-3"> 
+                <span class = "font-weight-bold">Adresse mail : </span> 
+                <span id ='email-value'>{{request.user.email}}</span>
+            </li>
+            <li class = "mt-3"> 
+                <span class = "font-weight-bold"> Prénom : </span> 
+                <span id ='firstName-value'>{{request.user.first_name}}</span>
+            </li>
+            <li class = "mt-3"> 
+                <span class = "font-weight-bold">Nom : </span> 
+                <span id ='lastName-value'>{{request.user.last_name}}</span>
+            </li>
+        </ul>
+    </div>
+
+    <!-- Modal -->
+    <div id="modalUserInfo" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+                <!-- Modal content-->
+            <form method='POST' id ="change-user-data-form">
+                {% csrf_token %}
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Modifiez vos informations</h4>
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    </div>
+
+                    <div class="modal-body">
+                            {% load crispy_forms_tags %}
+                            {{form | crispy}}
+                        
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" id ='cancel' class="btn btn-danger mr-5" >Annuler</button>
+                        <button type="submit" value="Post" class="btn btn-success"  >Valider</button>
+                    </div>
+                </div>
+            </form>    
+        </div>
+    </div>
+
+{% endblock %}

@@ -1,0 +1,15 @@
+{% extends 'website/base.html' %}
+
+{% block title %}
+Connexion
+{% endblock title %}
+
+{% load crispy_forms_tags %}
+{% block content %}
+    <form  method="post">
+        {% csrf_token %}
+        {{form | crispy}} 
+        <button type="submit" class='btn btn-success'>Connexion</button>
+        <p>Vous n'avez pas de compte? <a href="/register">Créez-en un</a> </p>
+    </form>
+{% endblock content %}
